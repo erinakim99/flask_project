@@ -1,0 +1,34 @@
+bindings:
+- members:
+  - serviceAccount:artifact-registry-sa@legal-426123.iam.gserviceaccount.com
+  role: roles/artifactregistry.admin
+- members:
+  - serviceAccount:service-931385013424@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - user:erinakim121@gmail.com
+  role: roles/artifactregistry.writer
+- members:
+  - serviceAccount:service-931385013424@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:931385013424-compute@developer.gserviceaccount.com
+  role: roles/editor
+- members:
+  - serviceAccount:erina-105@legal-426123.iam.gserviceaccount.com
+  - user:borysue99@gmail.com
+  role: roles/owner
+- members:
+  - serviceAccount:service-931385013424@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:service-931385013424@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - user:borysue99@gmail.com
+  role: roles/storage.admin
+- members:
+  - serviceAccount:artifact-registry-sa@legal-426123.iam.gserviceaccount.com
+  role: roles/viewer
+etag: BwYa4Isv6xw=
+version: 1
