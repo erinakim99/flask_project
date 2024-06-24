@@ -1,7 +1,7 @@
 Flask==2.0.1
 openai==0.11.0
 werkzeug==2.0.3
-tiktoken==0.1.0  # Replace with the correct version if known
+tiktoken==0.1.1  # Replace with the correct version if known
 langchain==0.0.21  # Replace with the correct version if known
 PyPDFLoader==0.0.5  # Replace with the correct version if known
 sentence-transformers==2.1.0  # Replace with the correct version if known
