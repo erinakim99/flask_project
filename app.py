@@ -8,7 +8,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.vectorstores.chroma import Chroma
-from langchain.document_loaders import PyPDFLoader
+from langchain.document_loaders import PyMuPDF
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def tiktoken_len(text):
     return len(tokens)
 
 file_path = "Washington State Tenant_Landlord.pdf"
-loader = PyPDFLoader(file_path)
+loader = PyMuPDF(file_path)
 pages = loader.load_and_split()
 
 text_splitter = RecursiveCharacterTextSplitter(

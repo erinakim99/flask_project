@@ -5,4 +5,4 @@ tiktoken==0.1.1
 langchain==0.0.21
 PyMuPDF==1.18.19
 sentence-transformers==2.1.0
-Chroma==0.0.11
+Chroma==0.1.0
