@@ -4,3 +4,4 @@ bjoern==3.2.2
 werkzeug==2.0.1
 langchain_community==0.2.6
 tiktoken==0.7.0
+openai==1.35.7
