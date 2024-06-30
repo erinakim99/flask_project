@@ -26,8 +26,7 @@ env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
 # Set the OpenAI API key from the configuration
-os.environ["OPENAI_API_KEY"] = app.config.get("SECRET_KEY")
-openai.api_key = os.environ["OPENAI_API_KEY"]
+openai.api_key = app.config.get("SECRET_KEY")
 
 # Set up file upload configuration
 UPLOAD_FOLDER = 'uploads'
