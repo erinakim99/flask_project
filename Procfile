@@ -1,1 +1,1 @@
-web: python run_bjoern.py
+web: python app.py

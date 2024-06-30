@@ -6,7 +6,6 @@ import openai
 import tiktoken
 import json
 import warnings
-import bjoern
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
