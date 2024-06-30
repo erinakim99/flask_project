@@ -19,7 +19,10 @@ CORS(app)
 warnings.simplefilter("ignore")
 
 # Set OpenAI API key
-os.environ["OPENAI_API_KEY"] = "sk-proj-zrBrhM1zbEeNKLderS3oT3BlbkFJljMTiyg7NICHl1xPtsD0"
+
+env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
+app.config.from_object(env_config)
+os.environ["OPENAI_API_KEY"] = app.config.get("SECRET_KEY")
 
 # Set up file upload configuration
 UPLOAD_FOLDER = 'uploads'
