@@ -1,70 +1,116 @@
-
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+from werkzeug.utils import secure_filename
 import os
-import tiktoken
-import json
 import warnings
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
-from langchain.chat_models import ChatOpenAI
-from langchain.vectorstores.chroma import Chroma
-from langchain.document_loaders import PyMuPDF
+from langchain_community.chat_models import ChatOpenAI
+from langchain_community.vectorstores import Chroma
+from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+import tiktoken
 
 app = Flask(__name__)
+CORS(app)
 
-# Initialize your components
+# Ignore warnings
+warnings.simplefilter("ignore")
+
+# Set OpenAI API key
+os.environ["OPENAI_API_KEY"] = "sk-proj-zrBrhM1zbEeNKLderS3oT3BlbkFJljMTiyg7NICHl1xPtsD0"
+
+# Set up file upload configuration
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Ignore warnings
+warnings.simplefilter("ignore")
+
+# Initialize tokenizer
 tokenizer = tiktoken.get_encoding("cl100k_base")
 
 def tiktoken_len(text):
     tokens = tokenizer.encode(text)
     return len(tokens)
 
-file_path = "Washington State Tenant_Landlord.pdf"
-loader = PyMuPDF(file_path)
-pages = loader.load_and_split()
+# Store processed documents and search index
+documents = []
+docsearch = None
 
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000,
-    chunk_overlap=100,
-    length_function=tiktoken_len
-)
-text = text_splitter.split_documents(pages)
-
-hf = HuggingFaceEmbeddings(
-    model_name="jhgan/ko-sbert-nli",
-    model_kwargs={"device": "cpu"},
-    encode_kwargs={"normalize_embeddings": True}
-)
-docsearch = Chroma.from_documents(text, hf)
-
-openai_model = ChatOpenAI(
-    model_name="gpt-3.5-turbo",
-    streaming=True,
-    callbacks=[StreamingStdOutCallbackHandler()],
-    temperature=0
-)
-
-qa = RetrievalQA.from_chain_type(
-    llm=openai_model,
-    chain_type="stuff",
-    retriever=docsearch.as_retriever(
-        search_type="mmr",
-        search_kwargs={'k': 3, 'fetch_k': 10}
-    ),
-    return_source_documents=True
-)
-
+# Helper function to process documents
 def document_to_dict(document):
     return {
         "page_content": document.page_content,
         "metadata": document.metadata
     }
 
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    global docsearch
+
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    file = request.files['file']
+
+    
+    if file:
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+
+        # Process the uploaded document
+        loader = PyPDFLoader(filepath)
+        pages = loader.load_and_split()
+
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=1000,
+            chunk_overlap=100,
+            length_function=tiktoken_len
+        )
+        text = text_splitter.split_documents(pages)
+
+        hf = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/nli-roberta-base-v2",
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True}
+        )
+        docsearch = Chroma.from_documents(text, hf)
+
+        processed_docs = [document_to_dict(doc) for doc in text]
+        documents.extend(processed_docs)  # Store processed documents
+
+        return jsonify({"message": "File uploaded and processed successfully"}), 200
+
 @app.route('/ask', methods=['POST'])
 def ask_question():
+    global docsearch
+
+    if docsearch is None:
+        return jsonify({"error": "No documents available for searching"}), 400
+
     data = request.get_json()
     query = data['query']
+
+    openai_model = ChatOpenAI(
+        model_name="gpt-3.5-turbo",
+        streaming=True,
+        callbacks=[StreamingStdOutCallbackHandler()],
+        temperature=0
+    )
+
+    qa = RetrievalQA.from_chain_type(
+        llm=openai_model,
+        chain_type="stuff",
+        retriever=docsearch.as_retriever(
+            search_type="mmr",
+            search_kwargs={'k': 3, 'fetch_k': 10}
+        ),
+        return_source_documents=True
+    )
+
     result = qa(query)
     result_serializable = {
         "query": result["query"],
@@ -73,5 +119,9 @@ def ask_question():
     }
     return jsonify(result_serializable)
 
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('index.html')
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(debug=True)
