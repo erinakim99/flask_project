@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
-from openai import openai
+import openai
 import tiktoken
 import json
 import warnings
@@ -20,11 +20,14 @@ CORS(app)
 # Ignore warnings
 warnings.simplefilter("ignore")
 
-# Set OpenAI API key
 
+# Load configuration from environment variable
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
+
+# Set the OpenAI API key from the configuration
 os.environ["OPENAI_API_KEY"] = app.config.get("SECRET_KEY")
+openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Set up file upload configuration
 UPLOAD_FOLDER = 'uploads'
@@ -130,5 +133,5 @@ def home():
 
 if __name__ == "__main__":
     import bjoern
-    bjoern.run(app, "127.0.0.1", 5000)
+    port = int(os.environ.get('PORT', 5000))
     bjoern.run(app, "0.0.0.0", port)
