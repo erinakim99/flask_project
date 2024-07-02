@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
-from openai import openai
+import openai
 import tiktoken
 import json
 import warnings
