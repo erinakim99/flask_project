@@ -14,11 +14,13 @@ fastapi-cli = "==0.0.4"
 fastjsonschema = "==2.15.1"  # Use the latest stable version if you don't need a specific version
 filelock = "==3.0.12"  # Use the latest stable version if you don't need a specific version
 flake8 = "==3.9.2"
-flask = "==2.0.1"
+flask = "==2.0.2"
 flask-cors = "==3.0.10"
 werkzeug = "==2.0.1"
-langchain_community = "*"  # Replace with specific version if needed
-tiktoken = "*"  # Replace with specific version if needed
+tiktoken = "==0.7.0"  # Replace with specific version if needed
+bjoern = "==3.2.2"
+langchain-community = "==0.2.6"
+openai = "==0.28.1"
 
 [dev-packages]
 
