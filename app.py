@@ -132,5 +132,5 @@ def home():
 
 if __name__ == "__main__":
     import bjoern
-    port = int(os.getenv('PORT', 5001))
+    port = int(os.getenv('PORT', 5000))
     bjoern.run(app, "0.0.0.0", port)
