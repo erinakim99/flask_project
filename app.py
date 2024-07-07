@@ -126,11 +126,11 @@ def ask_question():
     }
     return jsonify(result_serializable)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['GET']) # Home function has to be GET
 def home():
     return render_template('index.html')
 
 if __name__ == "__main__":
     import bjoern
     port = int(os.getenv('PORT', 5000))
-    bjoern.run(app, "0.0.0.0", port)
+    bjoern.run(app, "0.0.0.0", port) # make it active in non-local environment
