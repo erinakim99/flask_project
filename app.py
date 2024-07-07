@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
+from dotenv import load_dotenv
 import openai
 import tiktoken
 import json
@@ -20,6 +21,8 @@ CORS(app)
 # Ignore warnings
 warnings.simplefilter("ignore")
 
+# Load environment variables from .env file
+load_dotenv()
 
 # Load configuration from environment variable
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
