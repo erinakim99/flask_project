@@ -3,6 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 from dotenv import load_dotenv
+import sys
 import openai
 import tiktoken
 import json
@@ -20,6 +21,9 @@ CORS(app)
 
 # Ignore warnings
 warnings.simplefilter("ignore")
+
+# To broaden the path
+sys.path.append(os.path.dirname(__file__))
 
 # Load environment variables from .env file
 load_dotenv()
