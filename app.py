@@ -10,7 +10,7 @@ import warnings
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import chroma
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
