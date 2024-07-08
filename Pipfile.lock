@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e491f4702decca5d7fbcf5b13208d1ba15ff00cb6826886dbb0569ab66819bc7"
+            "sha256": "0bc3b1eb8f79cde5b3f8a0ffacf98f8f3905efc61559ef792692bc73c20d44bf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -592,11 +592,11 @@
         },
         "langsmith": {
             "hashes": [
-                "sha256:5cdd947212c8ad19adb992c06471c860185a777daa6859bb47150f90daf64bf3",
-                "sha256:f54d8cd8479b648b6339f3f735d19292c3516d080f680933ecdca3eab4b67ed3"
+                "sha256:01f3c6390dba26c583bac8dd0e551ce3d0509c7f55cad714db0b5c8d36e4c7ff",
+                "sha256:5220c0439838b9a5bd320fd3686be505c5083dcee22d2452006c23891153bea1"
             ],
             "markers": "python_version < '4.0' and python_full_version >= '3.8.1'",
-            "version": "==0.1.83"
+            "version": "==0.1.84"
         },
         "markdown-it-py": {
             "hashes": [
@@ -1304,11 +1304,11 @@
         },
         "tenacity": {
             "hashes": [
-                "sha256:9e6f7cf7da729125c7437222f8a522279751cdfbe6b67bfe64f75d3a348661b2",
-                "sha256:cd80a53a79336edba8489e767f729e4f391c896956b57140b5d7511a64bbd3ef"
+                "sha256:8bc6c0c8a09b31e6cad13c47afbed1a567518250a9a171418582ed8d9c20ca78",
+                "sha256:b594c2a5945830c267ce6b79a166228323ed52718f30302c1359836112346687"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==8.4.2"
+            "version": "==8.5.0"
         },
         "tiktoken": {
             "hashes": [
