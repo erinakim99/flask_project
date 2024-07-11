@@ -11,7 +11,7 @@ import warnings
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_community.chat_models import ChatOpenAI
-from langchain_community.vectorstores import chroma
+from langchain_community.vectorstores.chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
@@ -22,18 +22,21 @@ CORS(app)
 # Ignore warnings
 warnings.simplefilter("ignore")
 
-# To broaden the path
-sys.path.append(os.path.dirname(__file__))
-
 # Load environment variables from .env file
 load_dotenv()
 
 # Load configuration from environment variable
-env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
-app.config.from_object(env_config)
+# env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
+# app.config.from_object(env_config)
 
 # Set the OpenAI API key from the configuration
-openai.api_key = app.config.get("SECRET_KEY")
+# openai.api_key = app.config['SECRET_KEY']
+
+# Access the API key from the environment variable
+api_key = os.environ.get('OPENAI_API_KEY')
+
+# Initialize the OpenAI API client
+openai.api_key = api_key
 
 # Set up file upload configuration
 UPLOAD_FOLDER = 'uploads'
